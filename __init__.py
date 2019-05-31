@@ -7,7 +7,13 @@ import time
 
 # Rich presence connection
 client_id = '583084701510533126'
-rpc_obj = rpc.DiscordIpcClient.for_platform(client_id)
+# Check if discord is running, prevent error message
+connected = True
+try:
+    rpc_obj = rpc.DiscordIpcClient.for_platform(client_id)
+except:
+    connected = False
+    pass
 
 # Start time to show elapsed time
 start_time = round(time.time())
@@ -79,22 +85,24 @@ def dueToday():
 def onState(state, oldState):
     global skipEdit
 
-    # Update numbe due
-    dueToday()
+    # Check if connected
+    if connected:
+        # Update numbe due
+        dueToday()
 
-    # debug for states
-    #showInfo(state + ", " + oldState)
+        # debug for states
+        #showInfo(state + ", " + oldState)
 
-    # Check states:
-    if state == "deckBrowser":
-        update(dueMessage, "Chilling in the menus", "zzz")
-    if state == "review":
-        update(dueMessage, "Daily reviews", "tick-dark")
-    if state == "browse":
-        skipEdit = 1
-        update(dueMessage, "Browsing decks", "search")
-    if state == "edit":
-        update(dueMessage, "Adding cards", "ellipsis-dark")
+        # Check states:
+        if state == "deckBrowser":
+            update(dueMessage, "Chilling in the menus", "zzz")
+        if state == "review":
+            update(dueMessage, "Daily reviews", "tick-dark")
+        if state == "browse":
+            skipEdit = 1
+            update(dueMessage, "Browsing decks", "search")
+        if state == "edit":
+            update(dueMessage, "Adding cards", "ellipsis-dark")
 
 
 
