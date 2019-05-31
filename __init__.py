@@ -2,7 +2,7 @@ from anki.hooks import addHook
 from aqt import mw
 from aqt.utils import showInfo
 from aqt.qt import * 
-from AnkiDiscord import rpc
+from . import rpc
 import time
 
 # Rich presence connection
