@@ -19,6 +19,14 @@ A great way to share your progress with friends or motivate each other online
 
 Alternatively you can directly install us inside anki using the add-on code: **1133851639**
 
+
+### Planned Features
+ - Adding settings to configure how Anki is displayed on Discord
+ - Adding other trackers such as streak (in days), average daily reviews, total mature cards etc.
+ - Possibly switching to an updated RPC wrapper (?)
+ - Adding an integration to share/spectate decks (??)
+
+
 ### Contributing/Issues
 Please post issues on github and not on Anki's site.
 
