@@ -46,7 +46,11 @@ def update(state, details, pic):
         }
 
     # send to server:
-    rpc_obj.set_activity(activity)
+    try:
+        rpc_obj.set_activity(activity)
+    except:
+        connected = False
+        pass
 
 
 
