@@ -1,5 +1,5 @@
 from anki.hooks import addHook
-from aqt import mw
+from aqt import mw, gui_hooks
 from aqt.utils import showInfo
 from aqt.qt import * 
 from . import rpc
@@ -64,9 +64,12 @@ def dueToday():
     dueCount = 0
 
     # Loop through deckDueTree to find cards due
-    for i in mw.col.sched.deckDueTree():
-        name, did, due, lrn, new, children = i
-        dueCount += due + lrn + new
+    if mw.col == None:
+        pass # Patch: Crash on new Version
+    else:
+        for i in mw.col.sched.deckDueTree():
+            name, did, due, lrn, new, children = i
+            dueCount += due + lrn + new
 
     # Correct for single or no cards
     if dueCount == 0:
@@ -151,7 +154,8 @@ def onAnswer():
 # AddCards.onHistory --> opening browser via Add Cards
 # (Note: Decided to remove last one since obsolete)
 #
-addHook("afterStateChange", onState)
+#addHook("afterStateChange", onState)
+gui_hooks.state_did_change.append(onState) # New Hook for new Version
 addHook("browser.setupMenus", onBrowse)
 addHook("setupEditorShortcuts", onEditor)
 addHook("showAnswer", onAnswer)
