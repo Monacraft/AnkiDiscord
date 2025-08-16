@@ -6,6 +6,7 @@ import time
 import threading
 from datetime import datetime, timedelta
 import sys, os
+import warnings
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "pypresence"))
 
@@ -97,16 +98,17 @@ class DiscordRichPresence:
             # Get today's date in the format Anki uses
             today = mw.col.sched.today
             
-            # Query the revlog for today's reviews
+            anki_today_start = int((mw.col.sched.day_cutoff - 86400) * 1000)
+
             reviews_today = mw.col.db.scalar(
                 "SELECT COUNT(*) FROM revlog WHERE id > ?",
-                int(time.time() * 1000) - (86400 * 1000)
+                anki_today_start
             ) or 0
-            
+
             return reviews_today
         except:
             return 0
-    
+        
     def _calculate_due_cards(self):
         """Calculate cards due and update due message"""
         if not mw.col:
@@ -135,6 +137,8 @@ class DiscordRichPresence:
         except Exception as e:
             self.due_message = "Error calculating cards"
             print(f"Error calculating due cards: {e}")
+    
+
     
     def update_presence(self, state, details, small_image="tick-dark", force_update=False):
         """Update Discord Rich Presence with rate limiting and error handling"""
